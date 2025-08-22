@@ -21,11 +21,21 @@ pipeline {
             steps{
                 sh 'yarn test'
             }
+            post{
+                always{
+                   junit '**/reports/**/*.xml'
+                   }
+            }
         }
 
         stage('e2e'){
             steps{
                 sh 'yarn test:e2e'
+            }
+            post{
+                always{
+                    junit '**/reports/**/*.xml'
+                }
             }
         }
 
