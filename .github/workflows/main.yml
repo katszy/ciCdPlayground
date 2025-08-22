@@ -4,12 +4,17 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number for tagging'
+        required: true
+        default: 'v1.0.0'
   
 permissions:
   checks: write
   pull-requests: write
   id-token: write
-  contents: read
+  contents: write
   pages: write
 
 jobs:
@@ -35,3 +40,8 @@ jobs:
       if: always()
       with:
         files: 'reports/*.xml'
+    - name: Tag Commit
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        git tag ${{ inputs.version }}
+        git push origin ${{ inputs.version }}
