@@ -17,6 +17,20 @@ pipeline {
             }
         }
 
+        stage('unittest'){
+            steps{
+                sh 'yarn test'
+            }
+        }
+
+        stage('e2e'){
+            steps{
+                sh 'yarn test:e2e'
+            }
+        }
+
+
+
         stage('deploy') {
             steps {
                 s3Upload consoleLogLevel: 'INFO', 
